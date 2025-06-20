@@ -19,18 +19,27 @@ public class BallMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Brick")
+        if (collision.gameObject.tag == "Player")
+        {
+            Vector3 ballPos = transform.position;
+            Vector3 paddlePos = collision.transform.position;
+
+            float paddleWidth = collision.collider.bounds.size.x;
+            float hitFactor = (ballPos.x - paddlePos.x) / (paddleWidth / 2f);
+
+            Vector2 newDir = new Vector2(hitFactor, rb.linearVelocity.y > 0 ? -1f : 1f).normalized;
+            rb.linearVelocity = newDir * speed;
+        }
+        else
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * speed;
+        }
+
+        if (collision.gameObject.CompareTag("Brick"))
         {
             Destroy(collision.gameObject);
         }
-        rb.linearVelocity = SnapTo45(rb.linearVelocity.normalized) * speed;
-    }
-
-    private Vector2 SnapTo45(Vector2 dir)
-    {
-        float x = dir.x >= 0 ? 1f : -1f;
-        float y = dir.y >= 0 ? 1f : -1f;
-        return new Vector2(x, y).normalized;
+        
     }
 
 }
