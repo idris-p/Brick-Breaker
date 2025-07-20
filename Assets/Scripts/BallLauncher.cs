@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+// [RequireComponent(typeof(Rigidbody2D))]
 public class BallLauncher : MonoBehaviour
 {
     public Transform paddle;
@@ -9,10 +9,11 @@ public class BallLauncher : MonoBehaviour
     public PlayerMovement playerMovement;
     public float angularVelocity = 90f;
     public float launchSpeed = 5f;
+    public bool launched = false;
+
 
     private Rigidbody2D rb;
-    private float currentAngle = 90f;
-    private bool launched = false;
+    public float currentAngle = 90f;
 
     void Start()
     {
@@ -56,7 +57,7 @@ public class BallLauncher : MonoBehaviour
         }
     }
 
-    void UpdateLine()
+    public void UpdateLine()
     {
         Vector3 start = paddle.position + Vector3.up * 0.5f;
         Vector3 direction = AngleToVector(currentAngle);

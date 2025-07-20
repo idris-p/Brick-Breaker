@@ -34,4 +34,10 @@ public class PlayerMovement : MonoBehaviour
             transform.position = position;
         }
     }
+
+    public void ResetPosition()
+    {
+        canMove = false;
+        transform.position = new Vector3(0f, -4f, 0f);
+    }
 }
