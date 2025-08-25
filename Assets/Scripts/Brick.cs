@@ -4,6 +4,8 @@ public class Brick : MonoBehaviour
 {
     [Range(1, 4)]
     public int durability = 1;
+    public PowerUpType powerUpType = PowerUpType.None;
+    public GameObject powerUpPrefab;
     public Color[] durabilityColours = new Color[4]
     {
         new Color(124f/255f, 0f, 0f),
@@ -28,6 +30,10 @@ public class Brick : MonoBehaviour
             if (durability == 0)
             {
                 Destroy(gameObject);
+                if (powerUpType != PowerUpType.None)
+                {
+                    SpawnPowerUp();
+                }
             }
             UpdateColour();
         }
@@ -37,5 +43,12 @@ public class Brick : MonoBehaviour
     {
         int index = Mathf.Clamp(durability - 1, 0, durabilityColours.Length - 1);
         sr.color = durabilityColours[index];
+    }
+
+    void SpawnPowerUp()
+    {
+        GameObject powerUp = Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
+        powerUp.transform.rotation = Quaternion.Euler(0, 0, 90f);
+        powerUp.GetComponent<PowerUp>().type = powerUpType;
     }
 }

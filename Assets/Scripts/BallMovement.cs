@@ -20,7 +20,7 @@ public class BallMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             Vector3 ballPos = transform.position;
             Vector3 paddlePos = collision.transform.position;
@@ -28,10 +28,10 @@ public class BallMovement : MonoBehaviour
             float paddleWidth = collision.collider.bounds.size.x;
             float hitFactor = (ballPos.x - paddlePos.x) / (paddleWidth / 2f);
 
-            Vector2 newDir = new Vector2(hitFactor, rb.linearVelocity.y > 0 ? -1f : 1f).normalized;
+            Vector2 newDir = new Vector2(hitFactor, 1f).normalized;
             rb.linearVelocity = newDir * speed;
         }
-        else if (collision.gameObject.tag == "Out")
+        else if (collision.gameObject.CompareTag("Out"))
         {
             rb.linearVelocity = Vector2.zero;
             sr.enabled = false;

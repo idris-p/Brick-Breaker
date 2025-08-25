@@ -9,6 +9,7 @@ TagManager:
   - Brick
   - Ball
   - Out
+  - Power Up
   layers:
   - Default
   - TransparentFX

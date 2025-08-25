@@ -59,7 +59,7 @@ public class BallLauncher : MonoBehaviour
 
     public void UpdateLine()
     {
-        Vector3 start = paddle.position + Vector3.up * 0.5f;
+        Vector3 start = paddle.position + Vector3.up * 0.4f;
         Vector3 direction = AngleToVector(currentAngle);
 
         aim.SetPosition(0, start);
