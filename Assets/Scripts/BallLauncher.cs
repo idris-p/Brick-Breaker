@@ -28,10 +28,6 @@ public class BallLauncher : MonoBehaviour
         {
             return;
         }
-        // if (Input.GetKey(playerMovement.leftKey) && Input.GetKey(playerMovement.leftKey))
-        // {
-        //     ;
-        // }
         if (Input.GetKey(playerMovement.leftKey))
         {
             currentAngle += angularVelocity * Time.deltaTime;
