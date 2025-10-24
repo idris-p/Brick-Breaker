@@ -10,12 +10,17 @@ public class BallMovement : MonoBehaviour
     private SpriteRenderer sr;
     public BallLauncher ballLauncher;
     public PlayerMovement playerMovement;
+    public bool bomb = false;
+    public Color bombColor = Color.red;
+    private Color normalColor;
+    public float flashSpeed = 3f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        normalColor = sr.color;
     }
 
     void Update()
@@ -46,7 +51,10 @@ public class BallMovement : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Out"))
         {
+            Debug.Log("Ball Out of Bounds");
+            bomb = false;
             rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             sr.enabled = false;
             StartCoroutine(ResetBall());
         }
@@ -74,6 +82,25 @@ public class BallMovement : MonoBehaviour
         transform.position = new Vector3(0f, -3.6f, 0f);
         sr.enabled = true;
         CatchBall();
+    }
+
+    public void SetBomb()
+    {
+        if (bomb) return;
+        bomb = true;
+        StartCoroutine(FlashBomb());
+    }
+
+    private IEnumerator FlashBomb()
+    {
+        float t = 0f;
+        while (bomb)
+        {
+            t += Time.deltaTime * flashSpeed;
+            sr.color = Color.Lerp(normalColor, bombColor, Mathf.PingPong(t, 1f));
+            yield return null;
+        }
+        sr.color = normalColor;
     }
 
 }

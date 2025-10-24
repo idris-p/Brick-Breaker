@@ -15,18 +15,44 @@ public class Brick : MonoBehaviour
     };
 
     private SpriteRenderer sr;
+    public BallMovement ballMovement;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         UpdateColour();
+        ballMovement = FindFirstObjectByType<BallMovement>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ball")
+        if (collision.gameObject.CompareTag("Ball"))
         {
+            if (ballMovement.bomb)
+            {
+                Explode();
+            }
             TakeDamage();
+        }
+    }
+
+    private void Explode()
+    {
+        durability = 1;
+        ballMovement.bomb = false;
+        float explosionRadius = 0.5f;
+        Collider2D[] hitBricks = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+
+        foreach (Collider2D hit in hitBricks)
+        {
+            if (hit.CompareTag("Brick") && hit.gameObject != gameObject)
+            {
+                Brick brick = hit.GetComponent<Brick>();
+                if (brick != null)
+                {
+                    brick.TakeDamage();
+                }
+            }
         }
     }
 

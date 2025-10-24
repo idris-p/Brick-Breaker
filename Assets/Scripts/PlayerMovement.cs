@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = false;
     public bool hasLaser = false;
     public bool canCatch = false;
+    public bool isFlipped = false;
     public GameObject laserPrefab;
 
     // Update is called once per frame
@@ -46,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void flipControls()
+    {
+        KeyCode temp = leftKey;
+        leftKey = rightKey;
+        rightKey = temp;
+    }
+
     public void ResetPosition()
     {
         canMove = false;
@@ -57,5 +65,11 @@ public class PlayerMovement : MonoBehaviour
         boundary = 2f;
         hasLaser = false;
         canCatch = false;
+        if (isFlipped)
+        {
+            isFlipped = false;
+            flipControls();
+        }
+        
     }
 }
